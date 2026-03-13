@@ -1,31 +1,23 @@
 $(document).ready(function(){
-
-	// activar tooltips
+	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
-
-	// seleccionar todos los checkboxes
+	
+	// Select/Deselect checkboxes
 	var checkbox = $('table tbody input[type="checkbox"]');
-
 	$("#selectAll").click(function(){
-
 		if(this.checked){
 			checkbox.each(function(){
-				this.checked = true;
+				this.checked = true;                        
 			});
-		}else{
+		} else{
 			checkbox.each(function(){
-				this.checked = false;
+				this.checked = false;                        
 			});
-		}
-
+		} 
 	});
-
 	checkbox.click(function(){
-
 		if(!this.checked){
 			$("#selectAll").prop("checked", false);
 		}
-
 	});
-
 });

@@ -5,7 +5,7 @@ from .import views
 
 urlpatterns = [
 
-    path('',views.usuarios, name="usuarios"),
+    path('',views.usuario_list, name="usuarios"),
     
 ]
 

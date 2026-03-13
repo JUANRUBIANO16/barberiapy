@@ -7,7 +7,7 @@ from .import views
 
 urlpatterns = [
 
-    path('producto/',views.producto, name="productos"),
+    path('',views.producto, name="productos"),
     
 ]
 
