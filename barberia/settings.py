@@ -42,11 +42,13 @@ INSTALLED_APPS = [
 
     
     'citas',
-    'productos',
     'comprobante',
     'usuarios',
     'ventas',
     'administrador',
+    'tipoPago',
+    'Servicios',
+    
 ]
 
 MIDDLEWARE = [
@@ -92,7 +94,7 @@ WSGI_APPLICATION = 'barberia.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'barberiapy_db.sqlite3',
+        'NAME': BASE_DIR / 'hola.db.sqlite3',
     }
 }
 

@@ -9,9 +9,7 @@ class Usuario(models.Model):
 
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
-    direccion = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(max_length=100,unique=True)
     password = models.CharField(max_length=255)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     tipo_usuario = models.CharField(max_length=10, choices=TIPO_USUARIO)

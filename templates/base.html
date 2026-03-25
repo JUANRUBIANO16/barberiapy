@@ -9,6 +9,11 @@
 
 <title>Ragnarok Barber</title>
 
+<link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="/assets/DataTables/datatables.min.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="shortcut icon" href="/img/logo.png">
+
 <!-- Favicon -->
 <link rel="icon" href="{% static 'img/favicon/favicon.ico' %}" />
 
@@ -34,11 +39,9 @@
 
 </head>
 
-
 <body>
 
 <div class="layout-wrapper layout-content-navbar">
-
 <div class="layout-container">
 
 <!-- SIDEBAR -->
@@ -50,21 +53,43 @@
 {% include "includes/component/navbar.html" %}
 
 <!-- CONTENIDO -->
-<div class="content-wrapper">
+<div class="content-wrapper py-3">
 
-{% block content %}
-{% endblock %}
+    <!-- 👇 ESTE ES EL CAMBIO CLAVE -->
+    <div class="container-fluid px-5">
+
+        {% if messages %}
+        <div class="mt-3">
+            {% for message in messages %}
+                <div class="alert 
+                    {% if message.tags == 'error' %}alert-danger
+                    {% elif message.tags == 'success' %}alert-success
+                    {% elif message.tags == 'warning' %}alert-warning
+                    {% else %}alert-info
+                    {% endif %}
+                    alert-dismissible fade show" role="alert">
+                    
+                    {{ message }}
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- CONTENIDO DINÁMICO -->
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</div> <!-- FIN content-wrapper -->
 
 </div>
-
 </div>
-
-</div>
-
 </div>
 
 <!-- JS -->
-
 <script src="{% static 'vendor/libs/jquery/jquery.js' %}"></script>
 <script src="{% static 'vendor/libs/popper/popper.js' %}"></script>
 <script src="{% static 'vendor/js/bootstrap.js' %}"></script>

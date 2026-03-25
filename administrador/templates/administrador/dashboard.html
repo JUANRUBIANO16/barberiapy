@@ -1,170 +1,123 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Dashboard
+{% endblock %}
 
 {% block content %}
-<!-- / Navbar -->
 
-<!-- Content wrapper -->
-<div class="content-wrapper">
-  <!-- Content -->
-  <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-      <!-- Congratulations Card -->
-      <div class="col-xxl-8 mb-6 order-0">
-        <div class="card">
-          <div class="d-flex align-items-start row">
-            <div class="col-sm-7">
-              <div class="card-body">
-                <h5 class="card-title text-primary mb-3">Congratulations John! 🎉</h5>
-                <p class="mb-6">
-                  You have done 72% more sales today.<br />Check your new badge in your profile.
-                </p>
-                <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
-              </div>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+
+<style>
+    #sidebar { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease; }
+    .sidebar-mini { width: 72px !important; }
+    .sidebar-mini .sidebar-text, 
+    .sidebar-mini .sidebar-profile-details,
+    .sidebar-mini .mdi-chevron-down { 
+        display: none; 
+    }
+    .sidebar-mini .nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
+    .sidebar-mini .nav-link i { margin-right: 0; font-size: 1.5rem; }
+    .sidebar-mini .px-6 { padding-left: 0.5rem; padding-right: 0.5rem; text-align: center; }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+</style>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    
+    <a href="{% url 'usuarios' %}" class="group">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">Total usuarios</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">{{ total_usuarios }}</h2>
+                </div>
+                <div class="bg-purple-100 p-4 rounded-xl text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <i class="mdi mdi-account-group text-3xl"></i>
+                </div>
             </div>
-            <div class="col-sm-5 text-center text-sm-left">
-              <div class="card-body pb-0 px-0 px-md-6">
-                <img src="" height="175" alt="View Badge User" />
-              </div>
+            <div class="mt-4 flex items-center text-xs text-purple-600 font-semibold">
+                <span>Ver listado completo</span>
+                <i class="mdi mdi-arrow-right ml-1"></i>
             </div>
-          </div>
         </div>
-      </div>
+    </a>
 
-      <!-- Profit & Sales Cards -->
-      <div class="col-xxl-4 col-lg-12 col-md-4 order-1">
-        <div class="row">
-          <div class="col-lg-6 col-md-12 col-6 mb-6">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between mb-4">
-                  <div class="avatar flex-shrink-0">
-                    <img src="" alt="chart success" class="rounded" />
-                  </div>
-                  <div class="dropdown">
-                    <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-base bx bx-dots-vertical-rounded text-body-secondary"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                    </div>
-                  </div>
+    <a href="{% url 'listar_servicios' %}" class="group">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">Total Servicios</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">{{ total_productos }}</h2>
                 </div>
-                <p class="mb-1">Profit</p>
-                <h4 class="card-title mb-3">$12,628</h4>
-                <small class="text-success fw-medium"><i class="icon-base bx bx-up-arrow-alt"></i> +72.80%</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-md-12 col-6 mb-6">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between mb-4">
-                  <div class="avatar flex-shrink-0">
-                    <img src="" alt="wallet info" class="rounded" />
-                  </div>
-                  <div class="dropdown">
-                    <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-base bx bx-dots-vertical-rounded text-body-secondary"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                    </div>
-                  </div>
+                <div class="bg-orange-100 p-4 rounded-xl text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    <i class="mdi mdi-package-variant-closed text-3xl"></i>
                 </div>
-                <p class="mb-1">Sales</p>
-                <h4 class="card-title mb-3">$4,679</h4>
-                <small class="text-success fw-medium"><i class="icon-base bx bx-up-arrow-alt"></i> +28.42%</small>
-              </div>
             </div>
-          </div>
+            <div class="mt-4 flex items-center text-xs text-orange-600 font-semibold">
+                <span>Gestionar inventario</span>
+                <i class="mdi mdi-arrow-right ml-1"></i>
+            </div>
         </div>
-      </div>
+    </a>
 
-      <!-- Total Revenue -->
-      <div class="col-12 col-xxl-8 order-2 order-md-3 order-xxl-2 mb-6 total-revenue">
-        <div class="card">
-          <div class="row row-bordered g-0">
-            <div class="col-lg-8">
-              <div class="card-header d-flex align-items-center justify-content-between">
-                <div class="card-title mb-0">
-                  <h5 class="m-0 me-2">Total Revenue</h5>
+    <a href="" class="group">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">Ventas de Hoy</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">{{ ventas_hoy }}</h2>
                 </div>
-                <div class="dropdown">
-                  <button class="btn p-0" type="button" id="totalRevenue" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="icon-base bx bx-dots-vertical-rounded icon-lg text-body-secondary"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalRevenue">
-                    <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                    <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                    <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                  </div>
+                <div class="bg-green-100 p-4 rounded-xl text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <i class="mdi mdi-currency-usd text-3xl"></i>
                 </div>
-              </div>
-              <div id="totalRevenueChart" class="px-3"></div>
             </div>
-            <div class="col-lg-4">
-              <div class="card-body px-xl-9 py-12 d-flex align-items-center flex-column">
-                <div class="text-center mb-6">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary">
-                      <script>
-                        document.write(new Date().getFullYear() - 1);
-                      </script>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                      <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="javascript:void(0);">2021</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0);">2020</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0);">2019</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div id="growthChart"></div>
-                <div class="text-center fw-medium my-6">62% Company Growth</div>
-                <div class="d-flex gap-11 justify-content-between">
-                  <div class="d-flex">
-                    <div class="avatar me-2">
-                      <span class="avatar-initial rounded-2 bg-label-primary">
-                        <i class="icon-base bx bx-dollar icon-lg text-primary"></i>
-                      </span>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <small>
-                        <script>document.write(new Date().getFullYear() - 1);</script>
-                      </small>
-                      <h6 class="mb-0">$32.5k</h6>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div class="avatar me-2">
-                      <span class="avatar-initial rounded-2 bg-label-info">
-                        <i class="icon-base bx bx-wallet icon-lg text-info"></i>
-                      </span>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <small>
-                        <script>document.write(new Date().getFullYear() - 2);</script>
-                      </small>
-                      <h6 class="mb-0">$41.2k</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="mt-4 flex items-center text-xs text-green-600 font-semibold">
+                <span>Revisar historial diario</span>
+                <i class="mdi mdi-arrow-right ml-1"></i>
             </div>
-          </div>
         </div>
-      </div>
+    </a>
+</div>
 
-     
-
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h4 class="text-lg font-bold text-gray-800">Flujo Mensual</h4>
+                <p class="text-sm text-gray-500">Compras, Gastos y Ventas</p>
+            </div>
+            <div class="p-2 bg-gray-50 rounded-lg">
+                <i class="mdi mdi-chart-areaspline text-gray-400"></i>
+            </div>
+        </div>
+        <div class="relative h-80">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
-  </div>
-  <!-- / Content -->
 
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h4 class="text-lg font-bold text-gray-800">Ventas por Métodos</h4>
+                <p class="text-sm text-gray-500">Distribución de ingresos</p>
+            </div>
+            <a target="_blank" href="" class="flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200">
+                <i class="mdi mdi-file-document-outline mr-2"></i> Reporte
+            </a>
+        </div>
+        <div class="relative h-80">
+            <canvas id="paymentChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 {% endblock %}
