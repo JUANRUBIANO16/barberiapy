@@ -1,92 +1,75 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ragnarok Barber</title>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/assets/DataTables/datatables.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="shortcut icon" href="/img/logo.png">
 
-<title>Ragnarok Barber</title>
+    <link rel="icon" href="{% static 'img/favicon/favicon.ico' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="/assets/DataTables/datatables.min.css">
-<link rel="stylesheet" href="/css/custom.css">
-<link rel="shortcut icon" href="/img/logo.png">
+    <link rel="stylesheet" href="{% static 'vendor/fonts/iconify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/css/core.css' %}">
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}">
 
-<!-- Favicon -->
-<link rel="icon" href="{% static 'img/favicon/favicon.ico' %}" />
+    <script src="{% static 'vendor/js/helpers.js' %}"></script>
+    <script src="{% static 'js/config.js' %}"></script>
 
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
+    <style>
+        /* 📱 móvil por defecto */
+        .layout-page {
+            margin-left: 0 !important;
+            width: 100% !important;
+            transition: all 0.3s ease;
+        }
 
-<!-- ICONOS -->
-<link rel="stylesheet" href="{% static 'vendor/fonts/iconify-icons.css' %}">
+        /* 💻 escritorio */
+        @media (min-width: 992px) {
+            .layout-page {
+                margin-left: 260px !important;
+                width: calc(100% - 260px) !important;
+            }
+        }
 
-<!-- CORE CSS -->
-<link rel="stylesheet" href="{% static 'vendor/css/core.css' %}">
-<link rel="stylesheet" href="{% static 'css/demo.css' %}">
-
-<!-- SCROLL -->
-<link rel="stylesheet" href="{% static 'vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}">
-
-<!-- helpers -->
-<script src="{% static 'vendor/js/helpers.js' %}"></script>
-
-<!-- config -->
-<script src="{% static 'js/config.js' %}"></script>
-
+        /* 📱 tablas responsive */
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="layout-wrapper layout-content-navbar">
-<div class="layout-container">
+    <div class="layout-container">
 
-<!-- SIDEBAR -->
-{% include "includes/component/sidebar.html" %}
+        <!-- SIDEBAR -->
+        {% include "includes/component/sidebar.html" %}
 
-<div class="layout-page">
+        <div class="layout-page">
 
-<!-- NAVBAR -->
-{% include "includes/component/navbar.html" %}
+            <!-- CONTENIDO -->
+            <div class="content-wrapper py-3">
 
-<!-- CONTENIDO -->
-<div class="content-wrapper py-3">
+                <!-- responsive padding -->
+                <div class="container-fluid px-2 px-md-5">
 
-    <!-- 👇 ESTE ES EL CAMBIO CLAVE -->
-    <div class="container-fluid px-5">
+                   
+                    <!-- contenido dinámico -->
+                    {% block content %}
+                    {% endblock %}
 
-        {% if messages %}
-        <div class="mt-3">
-            {% for message in messages %}
-                <div class="alert 
-                    {% if message.tags == 'error' %}alert-danger
-                    {% elif message.tags == 'success' %}alert-success
-                    {% elif message.tags == 'warning' %}alert-warning
-                    {% else %}alert-info
-                    {% endif %}
-                    alert-dismissible fade show" role="alert">
-                    
-                    {{ message }}
-
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-        {% endif %}
-
-        <!-- CONTENIDO DINÁMICO -->
-        {% block content %}
-        {% endblock %}
-
     </div>
-
-</div> <!-- FIN content-wrapper -->
-
-</div>
-</div>
 </div>
 
 <!-- JS -->
@@ -95,7 +78,6 @@
 <script src="{% static 'vendor/js/bootstrap.js' %}"></script>
 <script src="{% static 'vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
 <script src="{% static 'vendor/js/menu.js' %}"></script>
-
 <script src="{% static 'js/main.js' %}"></script>
 
 </body>

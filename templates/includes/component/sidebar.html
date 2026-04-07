@@ -5,6 +5,14 @@
 #layout-menu {
     background: linear-gradient(180deg, #0f1a2b, #0b1422);
     color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.3s ease;
 }
 
 /* Header */
@@ -68,6 +76,11 @@
     font-size: 20px;
 }
 
+/* Activo */
+.menu-item.active .menu-icon {
+    color: #4da3ff;
+}
+
 /* Salir */
 .logout {
     margin-top: 20px;
@@ -76,6 +89,44 @@
 
 .logout:hover {
     background: rgba(255,0,0,0.1);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+    #layout-menu {
+        width: 220px;
+    }
+
+    .app-brand-text {
+        font-size: 18px;
+    }
+
+    .profile-box {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .profile-box img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .profile-info {
+        font-size: 13px;
+    }
+
+    .profile-info span {
+        font-size: 11px;
+    }
+
+    .menu-link {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .menu-icon {
+        font-size: 18px;
+    }
 }
 </style>
 
@@ -86,67 +137,97 @@
 
 <!-- Perfil -->
 <div class="profile-box">
-    <img src="https://i.pravatar.cc/100" alt="">
+    {% if usuario.foto %}
+        <img src="{{ usuario.foto.url }}" alt="Foto de perfil">
+    {% else %}
+        <img src="{% static 'img/default-avatar.png' %}" alt="Foto por defecto">
+    {% endif %}
     <div class="profile-info">
-        admin@gmail.com
-        <span>Administrador</span>
+        <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+        <span>{{ usuario.tipo_usuario|capfirst }}</span>
     </div>
 </div>
 
 <ul class="menu-inner py-2">
 
+<!-- Perfil -->
+<li class="menu-item">
+    <a href="{% url 'perfil' %}" class="menu-link">
+        <i class="menu-icon bx bx-user-circle"></i>
+        <div>Perfil</div>
+    </a>
+</li>
+
 <!-- Dashboard -->
 <li class="menu-item">
     <a href="{% url 'dashboard' %}" class="menu-link">
-        <i class="menu-icon bx bx-home-smile"></i>
+        <i class="menu-icon bx bx-grid-alt"></i>
         <div>Dashboard</div>
     </a>
 </li>
 
-<!-- Citas -->
-<li class="menu-item">
-    <a href="{% url 'citas' %}" class="menu-link">
-        <i class="menu-icon bx bx-calendar"></i>
-        <div>Citas</div>
-    </a>
-</li>
-
+{% if request.session.user_rol == 'admin' %}
 <!-- Usuarios -->
 <li class="menu-item">
     <a href="{% url 'usuarios' %}" class="menu-link">
-        <i class="menu-icon bx bx-user"></i>
+        <i class="menu-icon bx bx-group"></i>
         <div>Usuarios</div>
+    </a>
+</li>
+{% endif %}
+
+<!-- Citas -->
+<li class="menu-item">
+    <a href="{% url 'citas' %}" class="menu-link">
+        <i class="menu-icon bx bx-calendar-check"></i>
+        <div>Citas</div>
     </a>
 </li>
 
 <!-- Servicios -->
 <li class="menu-item">
     <a href="{% url 'listar_servicios' %}" class="menu-link">
-        <i class="menu-icon bx bx-box"></i>
+        <i class="menu-icon bx bx-briefcase-alt"></i>
         <div>Servicios</div>
+    </a>
+</li>
+
+<!-- Ventas -->
+<li class="menu-item">
+    <a href="{% url 'ventas' %}" class="menu-link">
+        <i class="menu-icon bx bx-line-chart"></i>
+        <div>Ventas</div>
     </a>
 </li>
 
 <!-- Comprobantes -->
 <li class="menu-item">
     <a href="{% url 'comprobantes' %}" class="menu-link">
-        <i class="menu-icon bx bx-receipt"></i>
+        <i class="menu-icon bx bx-file"></i>
         <div>Comprobantes</div>
     </a>
 </li>
 
-<!-- Servicios duplicado (lo dejé porque ya lo tenías) -->
+<!-- Tipo de Pago -->
 <li class="menu-item">
-    <a href="{% url 'listar_servicios' %}" class="menu-link">
-        <i class="menu-icon bx bx-receipt"></i>
-        <div>servicios</div>
+    <a href="{% url 'tipoPago' %}" class="menu-link">
+        <i class="menu-icon bx bx-credit-card"></i>
+        <div>Tipo de Pago</div>
+    </a>
+</li>
+
+<!-- Notificaciones -->
+<li class="menu-item">
+    <a href="{% url 'notificaciones' %}" class="menu-link">
+        <i class="menu-icon bx bx-bell"></i>
+        <div>Notificaciones</div>
     </a>
 </li>
 
 <!-- Salir -->
 <li class="menu-item">
-    <a href="#" class="menu-link logout">
-        <i class="menu-icon bx bx-log-out"></i>
+    <a href="{% url 'logout' %}" class="menu-link logout">
+        <i class="menu-icon bx bx-log-out-circle"></i>
         <div>Salir</div>
     </a>
 </li>

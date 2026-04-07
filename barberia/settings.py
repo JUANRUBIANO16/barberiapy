@@ -38,18 +38,33 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'usuarios.apps.UsuariosConfig',
     
-
-    
+    'Barber',
+    'Loguin',
     'citas',
     'comprobante',
-    'usuarios',
     'ventas',
     'administrador',
     'tipoPago',
     'Servicios',
+    'notificaciones',
+    
     
 ]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'ragnarockbarber@gmail.com'
+EMAIL_HOST_PASSWORD = 'cepp jknc lyxu tkvr'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'barberia.urls'
@@ -74,6 +90,7 @@ TEMPLATES = [
             'django.template.context_processors.request',
             'django.contrib.auth.context_processors.auth',
             'django.contrib.messages.context_processors.messages',
+            'usuarios.context_processors.usuario_actual',
         ],
     },
 }
@@ -94,9 +111,12 @@ WSGI_APPLICATION = 'barberia.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'hola.db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Password validation
@@ -123,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 

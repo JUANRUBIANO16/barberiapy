@@ -7,6 +7,6 @@ from .import views
 
 urlpatterns = [
     path("", views.dashboard, name='dashboard'),
-    path("perfiles/", views.perfiles, name='comprobantes'),
+    path('perfil/', views.perfil, name='perfil'),
 ]
 

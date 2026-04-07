@@ -3,18 +3,30 @@ from django.contrib import messages
 from citas.models import Cita
 from Servicios.models import Servicio
 from usuarios.models import Usuario
+from barberia.decorators import login_required, role_required
+
 
 #aca listamos todos los contextos necesarios para mostrar en la plantilla de citas
+@login_required
 def citas(request):
+    user_id = request.session.get('user_id')
+    rol = request.session.get('user_rol')
+
+    
+    if rol == 'admin':
+        lista_citas = Cita.objects.all()
+    elif rol == 'barbero':
+        lista_citas = Cita.objects.filter(barbero_id=user_id)
+    else:
+        lista_citas = Cita.objects.none()
+
     return render(request, "citas/citas.html", {
-        'citas': Cita.objects.all(),
+        'citas': lista_citas,
         'barberos': Usuario.objects.filter(tipo_usuario='barbero'),
         'clientes': Usuario.objects.filter(tipo_usuario='cliente'),
         'servicios': Servicio.objects.all(),
-        'estados': Cita.ESTADOS   
+        'estados': Cita.ESTADOS
     })
-
-
 def crearCita(request):
     if request.method == 'POST':
 
@@ -96,4 +108,13 @@ def cita_edit(request, id):
         messages.success(request, 'Cita actualizada correctamente')
         return redirect('citas')
 
+    return redirect('citas')
+
+
+
+def cita_delete(request, id):
+    cita=get_object_or_404(Cita,id=id)
+    cita.delete()
+    
+    messages.success(request, 'Cita eliminada correctamente')
     return redirect('citas')
