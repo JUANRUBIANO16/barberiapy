@@ -3,163 +3,144 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Barbería Vikings</title>
+    <title>Ragnarok Barber Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/barberia.css' %}">
-    <style>
-        /* TODO tu CSS queda EXACTAMENTE igual */
-    </style>
+    <link rel="stylesheet" href="{% static 'css/barber.css' %}">
 </head>
 <body>
+
+
+    <!-- HEADER -->
     <header>
-        <img src="{% static 'img/jj2.png' %}" alt="Logo Barbería" class="logo">
+        <img src="{% static 'img/jj2.png' %}" alt="Logo Barbería" class="logo" />
         <nav>
             <a href="#inicio">Inicio</a>
             <a href="#sobre-nosotros">Sobre nosotros</a>
-            <a href="#servicios">Servicio</a>
+            <a href="#servicios">Servicios</a>
             <a href="#agenda">Reservar</a>
             <a href="#ubicacion">Ubícanos</a>
             <a href="{% url 'loguin' %}">Admin</a>
         </nav>
     </header>
 
-    <section id="inicio" class="hero">
+    <!-- HERO -->
+    <section id="inicio" class="hero" style="background-image: url('{% static 'img/jj2.png' %}');">
         <div class="hero-content">
             <h1>Ragnarok Barber Shop</h1>
-            <div class="decoracion-hero">
-                <hr>
-                <img src="{% static 'img/jj2.png' %}" alt="icono" width="300">
-                <hr>
-            </div>
         </div>
     </section>
 
-    <section id="sobre-nosotros" class="sobre-nosotros">
-        <div class="sobre-contenido">
-      
-            <h2>Sobre Ragnarok Barber Shop</h2>
-            <hr class="decorativo">
-            <p>
-                Ragnarok Barber Shop es un espacio moderno de la barbería donde entendemos las inquietudes y necesidades del hombre contemporáneo para ofrecerle una imagen actual y el estilo que mejor refleja su personalidad.
-            </p>
-        </div>
-    </section>
+    <!-- SOBRE NOSOTROS -->
+<section id="sobre-nosotros" class="sobre-nosotros" style="background-image: url('{% static 'img/sobre-nosotros-bg.jpg' %}');">
+    <div class="sobre-contenido">
+        
+        <h2>Sobre Nosotros</h2>
+        <hr class="decorativo">
+        <p>
+            En <strong>Ragnarok Barber Shop</strong> nos apasiona ofrecer los mejores servicios de barbería 
+            y cuidado personal. Nuestro equipo de expertos combina técnicas clásicas y modernas para brindarte 
+            una experiencia única, cuidando cada detalle para que salgas satisfecho y renovado.
+        </p>
+    </div>
+</section>
 
+    <!-- NUESTROS SERVICIOS -->
     <section id="servicios" class="nuestros-servicios">
         <h2 class="titulo-servicios">Nuestros Servicios</h2>
         <div class="servicios-grid">
-
-            {% if servicios %}
-                {% for servicio in servicios %}
-                    <div class="servicio-box">
-                                          <div class="servicio-imagen">
-    <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}" style="width: 350px; height: auto;">
-</div>
-                        <h3>— <span>{{ servicio.nombre }}</span></h3>
-                        <div class="servicio-descripcion">
-                            {{ servicio.descripcion }}
-                        </div> 
-      
-                          
-                        <div class="servicio-footer">
-                            <div class="precio-servicio">
-                                <strong>${{ servicio.precio|floatformat:0 }}</strong>
-                            </div>
-                            <div class="categoria-servicio">
-                                <span class="badge">{{ servicio.categoria|default:"Servicio" }}</span>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="servicio-box">
-                    <div class="servicio-icono">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png" alt="Icono servicio" width="40">
-                    </div>
-                    <h3>— <span>Corte de Cabello Premium</span></h3>
-                    <div class="servicio-descripcion">
-                        Estilos modernos y clásicos con asesoría personalizada y acabado profesional.
-                    </div>
-                    <div class="servicio-footer">
-                        <div class="precio-servicio">
-                            <strong>$25.000</strong>
-                        </div>
-                        <div class="categoria-servicio">
-                            <span class="badge">Corte</span>
-                        </div>
-                    </div>
+            {% for servicio in servicios %}
+            <div class="servicio-box">
+                 <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}" class="servicio-imagen">
+                <h3>— <span>{{ servicio.nombre }}</span></h3>
+                <div class="servicio-descripcion">{{ servicio.descripcion }}</div>
+                <div class="servicio-footer">
+                    <strong>${{ servicio.precio|floatformat:2 }}</strong>
+                    <span class="badge">{{ servicio.categoria }}</span>
                 </div>
-            {% endif %}
-
+            </div>
+            {% endfor %}
         </div>
     </section>
 
+    <!-- FORMULARIO AGENDA -->
     <section id="agenda" class="agenda-servicio">
         <div class="agenda-contenido">
             <div class="agenda-info">
-                <h2>AGENDA TU<br>SERVICIO</h2>
-                <p>Rellena el formulario y contactanos.</p>
+                <h2>AGENDA TU <br> SERVICIO</h2>
+                <p>Rellena el formulario y contáctanos.</p>
             </div>
 
-            <form class="agenda-formulario" id="formulario-cita">
+            <form class="agenda-formulario" action="{% url 'cita' %}" method="POST">
                 {% csrf_token %}
-                <div class="agenda-inputs">
-                    <input type="text" name="nombre" placeholder="Tu nombre" required>
-                    <input type="text" name="telefono" placeholder="Num contacto" required>
-                </div>
-                
-
+                <input type="text" name="nombre" placeholder="Tu nombre" required>
+                <input type="text" name="telefono" placeholder="Num contacto" required>
                 <input type="email" name="email" placeholder="Email" required>
-
-                <textarea name="mensaje" placeholder="Mensaje adicional (opcional)" rows="3"></textarea>
-                <button type="submit">Enviar Solicitud</button>
+                <textarea name="mensaje" placeholder="Mensaje adicional" rows="3"></textarea>
+                <button type="submit" id="btn">Enviar Solicitud</button>
             </form>
         </div>
     </section>
 
-    <footer class="footer-vikings">
-        <div class="footer-logo">
-            <img src="{% static 'imagenes/jj2.jpg' %}" alt="Vikings Barber Shop" width="220">
-            <h2>VIKINGS<br><span>BARBER SHOP</span></h2>
-            <div class="footer-stars">★★★★★</div>
+    <!-- UBICACIÓN -->
+    <section id="ubicacion" class="ubicacion">
+        <h2 class="titulo-ubicacion"><span>¿Dónde nos puedes ubicar?</span></h2>
+        <div class="mapa-ubicacion">
+            <iframe src="https://www.google.com/maps?q=Chapinero%20Bogota&output=embed" width="100%" height="450" loading="lazy" title="Mapa"></iframe>
         </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-vikings">
+        <img src="{% static 'img/jj2.png' %}" alt="Vikings Barber Shop" width="220" />
+        <h2>
+          Ragnarok <br />
+          <span>BARBER SHOP</span>
+        </h2>
+        <div class="footer-stars">★★★★★</div>
+        <b>Todos los derechos reservados - Vikingsbarber.com</b>
     </footer>
 
+    <!-- SCRIPT AJAX PARA ENVÍO DE FORMULARIO -->
     <script>
-    document.getElementById('formulario-cita').addEventListener('submit', function(e) {
-        e.preventDefault();
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector(".agenda-formulario");
+        const btn = document.getElementById("btn");
 
-        const formData = new FormData(this);
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
+        form.addEventListener("submit", function(e) {
+            e.preventDefault(); // Evita el envío normal del formulario
 
-        submitBtn.textContent = 'Enviando...';
-        submitBtn.disabled = true;
+            btn.disabled = true;
+            btn.textContent = "Enviando...";
 
-        fetch('{% url "cita" %}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('¡Solicitud enviada correctamente!');
-                this.reset();
-            } else {
-                alert('Error al enviar la solicitud.');
-            }
-        })
-        .finally(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            const formData = new FormData(form);
+
+            fetch("{% url 'cita' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": formData.get('csrfmiddlewaretoken'),
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+                    alert(data.message);
+                    form.reset();
+                } else {
+                    alert("Error: " + (data.error || "No se pudo enviar la solicitud."));
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocurrió un error inesperado.");
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = "Enviar Solicitud";
+            });
         });
     });
     </script>
 
-    <script src="{% static 'js/barberia.js' %}"></script>
 </body>
 </html>
